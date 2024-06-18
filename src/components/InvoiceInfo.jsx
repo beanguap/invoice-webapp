@@ -129,7 +129,7 @@ function InvoiceInfo({ onDelete }) {
                                 {invoice.items.map(item => (
                                     <div className='justify-between text-lg dark:text-white flex' key={item.name}>
                                         <h1>{item.name}</h1>
-                                        <h1>£{item.total}</h1>
+                                        <h1>${item.total}</h1>
                                     </div>
                                 ))}
                             </div>
