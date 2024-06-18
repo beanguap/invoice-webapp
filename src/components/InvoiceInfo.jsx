@@ -78,7 +78,7 @@ function InvoiceInfo({ onDelete }) {
                                 <button onClick={() => setIsEditOpen(true)} className='text-[#7e88c3] text-center dark:bg-[#252945] hover:opacity-80 bg-slate-100 p-3 px-7 rounded-full'>Edit</button>
                                 <button onClick={() => setIsDeleteModalOpen(true)} className='ml-3 text-center text-white bg-red-500 hover:opacity-80 p-3 px-7 rounded-full'>Delete</button>
                                 {invoice.status === 'pending' && (
-                                    <button onClick={onMakePaidClick} className='ml-3 text-center text-white bg-[#7c5dfa] hover:opacity-80 p-3 px-7 rounded-full'>Make as Paid</button>
+                                    <button onClick={onMakePaidClick} className='ml-3 text-center text-white bg-[#7c5dfa] hover:opacity-80 p-3 px-7 rounded-full'>Mark as Paid</button>
                                 )}
                             </div>
                         </div>
