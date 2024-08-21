@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useAnimation } from 'framer-motion'
 import arrowDown from '../assets/icon-arrow-down.svg'
 import plus from '../assets/plus.png'
@@ -41,7 +41,7 @@ function Center() {
         stiffness: 200,
     };
 
-    const varients = {
+    const variants = {
         open: { opacity: 1, x: -20, duration: 200, transition },
         close: { opacity: 0, x: -100, duration: 500, transition }
     }
@@ -82,7 +82,7 @@ function Center() {
                                 </div>
                             </div>
                             {isDropdown &&
-                                <motion.div as='select' variants={varients} animate={
+                                <motion.div as='select' variants={variants} animate={
                                     isDropdown ? "open" : "close"
                                 } className='  w-40 bg-white dark:bg-[#1E2139] dark:text-white flex px-6 py-4 flex-col  top-[160px] lg:top-[120px]  absolute  shadow-2xl rounded-xl space-y-2    '>
                                     {filter.map((item, i) => (

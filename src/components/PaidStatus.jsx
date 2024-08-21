@@ -1,4 +1,4 @@
-import React from 'react'
+
 
 function PaidStatus({type}) {
     const classNames = {
