@@ -8,48 +8,30 @@ const today = moment().format("YYYY-MM-DD");
 
 const invoiceSlice = createSlice({
   name: "invoices",
-
   initialState: {
     allInvoice: data,
     filteredInvoice: [],
     invoiceById: null,
   },
-
   reducers: {
     filterInvoice: (state, action) => {
-      const { allInvoice } = state;
-      if (action.payload.status === "") {
-        state.filteredInvoice = allInvoice;
-      } else {
-        const filteredData = allInvoice.filter((invoice) => {
-          return invoice.status === action.payload.status;
-        });
-        console.log(filteredData);
-        state.filteredInvoice = filteredData;
-      }
+      const { status } = action.payload;
+      state.filteredInvoice = status 
+        ? state.allInvoice.filter(invoice => invoice.status === status)
+        : state.allInvoice;
     },
     getInvoiceById: (state, action) => {
-      const { allInvoice } = state;
-      const invoice = allInvoice.find((item) => item.id === action.payload.id);
-      state.invoiceById = invoice;
+      const { id } = action.payload;
+      state.invoiceById = state.allInvoice.find(invoice => invoice.id === id) || null;
     },
     deleteInvoice: (state, action) => {
-      const { allInvoice } = state;
-      const index = allInvoice.findIndex(
-        (invoice) => invoice.id === action.payload.id
-      );
-      if (index !== -1) {
-        allInvoice.splice(index, 1);
-      }
+      const { id } = action.payload;
+      state.allInvoice = state.allInvoice.filter(invoice => invoice.id !== id);
     },
     updateInvoiceStatus: (state, action) => {
       const { id, status } = action.payload;
-      const invoiceToUpdate = state.allInvoice.find(
-        (invoice) => invoice.id === id
-      );
-      if (invoiceToUpdate) {
-        invoiceToUpdate.status = status;
-      }
+      const invoice = state.allInvoice.find(invoice => invoice.id === id);
+      if (invoice) invoice.status = status;
     },
     addInvoice: (state, action) => {
       const {
@@ -68,14 +50,14 @@ const invoiceSlice = createSlice({
         item,
       } = action.payload;
 
-      const finalData = {
-        id: `${generateID()}`,
+      const newInvoice = {
+        id: generateID(),
         createdAt: today,
         paymentDue: getForwardDate(paymentTerms),
-        description: description,
-        paymentTerms: paymentTerms,
-        clientName: clientName,
-        clientEmail: clientEmail,
+        description,
+        paymentTerms,
+        clientName,
+        clientEmail,
         status: "pending",
         senderAddress: {
           street: senderStreet,
@@ -90,14 +72,12 @@ const invoiceSlice = createSlice({
           country: clientCountry,
         },
         items: item,
-        total: item.reduce((acc, i) => {
-          return acc + Number(i.total);
-        }, 0),
+        total: item.reduce((total, { total: itemTotal }) => total + Number(itemTotal), 0),
       };
-      state.allInvoice.push(finalData);
+
+      state.allInvoice.push(newInvoice);
     },
     editInvoice: (state, action) => {
-      const { allInvoice } = state;
       const {
         description,
         paymentTerms,
@@ -115,38 +95,32 @@ const invoiceSlice = createSlice({
         id,
       } = action.payload;
 
-      const invoiceIndex = allInvoice.findIndex((invoice) => invoice.id === id);
-      const edittedObject = {
-        description: description,
-        paymentTerms: paymentTerms,
-        clientName: clientName,
-        clientEmail: clientEmail,
-        senderAddress: {
-          street: senderStreet,
-          city: senderCity,
-          postCode: senderPostCode,
-          country: senderCountry,
-        },
-        clientAddress: {
-          street: clientStreet,
-          city: clientCity,
-          postCode: clientPostCode,
-          country: clientCountry,
-        },
-        items: item,
-        total: item.reduce((acc, i) => {
-          return acc + Number(i.total);
-        }, 0),
-      };
-
+      const invoiceIndex = state.allInvoice.findIndex(invoice => invoice.id === id);
       if (invoiceIndex !== -1) {
-        allInvoice[invoiceIndex] = {
-          ...allInvoice[invoiceIndex] ,
-          ...edittedObject
+        state.allInvoice[invoiceIndex] = {
+          ...state.allInvoice[invoiceIndex],
+          description,
+          paymentTerms,
+          clientName,
+          clientEmail,
+          senderAddress: {
+            street: senderStreet,
+            city: senderCity,
+            postCode: senderPostCode,
+            country: senderCountry,
+          },
+          clientAddress: {
+            street: clientStreet,
+            city: clientCity,
+            postCode: clientPostCode,
+            country: clientCountry,
+          },
+          items: item,
+          total: item.reduce((total, { total: itemTotal }) => total + Number(itemTotal), 0),
         };
       }
     },
   },
 });
 
-export default invoiceSlice;
+export default invoiceSlice.reducer;

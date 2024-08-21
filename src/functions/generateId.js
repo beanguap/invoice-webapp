@@ -1,18 +1,20 @@
+/**
+ * Generates a unique ID consisting of 2 random uppercase letters followed by 4 random digits.
+ *
+ * @returns {string} - The generated ID in the format 'LLDDDD'.
+ */
 function generateID() {
-  var letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  var id = "";
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const getRandomLetter = () => letters.charAt(Math.floor(Math.random() * letters.length));
+  const getRandomDigit = () => Math.floor(Math.random() * 10);
 
   // Generate 2 random uppercase letters
-  for (var i = 0; i < 2; i++) {
-      id += letters.charAt(Math.floor(Math.random() * letters.length));
-  }
+  const randomLetters = Array.from({ length: 2 }, getRandomLetter).join('');
 
   // Generate 4 random digits
-  for (var j = 0; j < 4; j++) {
-      id += Math.floor(Math.random() * 10);
-  }
+  const randomDigits = Array.from({ length: 4 }, getRandomDigit).join('');
 
-  return id; // Return the generated ID
+  return `${randomLetters}${randomDigits}`;
 }
 
 export default generateID;

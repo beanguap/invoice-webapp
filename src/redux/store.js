@@ -1,13 +1,12 @@
 // cspell:ignore reduxjs
 import { configureStore } from "@reduxjs/toolkit";
-import invoiceSlice from './invoiceSlice'
+import invoiceReducer from './invoiceSlice';
 
-
-
+// Create and configure the Redux store
 const store = configureStore({
-    reducer : {
-        invoices : invoiceSlice.reducer
-    }
-})
+    reducer: {
+        invoices: invoiceReducer,
+    },
+});
 
-export default store
+export default store;

@@ -1,69 +1,26 @@
-export function validateSenderStreetAddress(streetAddress) {
-  if (!streetAddress.trim()) {
-    return false;
-  }
-  return true;
-}
-export function validateSenderCity(city) {
-  if (!city.trim()) {
-    return false;
-  }
-  return true;
-}
-export function validateSenderPostCode(postCode) {
-  return /^\d{5}(-\d{4})?$/.test(postCode); // Basic post code validation
-}
-export function validateSenderCountry(country) {
-  if (!country.trim()) {
-    return false;
-  }
-  return true;
-}
+// Helper function to check if a string is non-empty after trimming
+const isNonEmpty = (str) => !!str.trim();
 
-export function validateCLientName(name) {
-  return /^[a-zA-Z]+$/.test(name); // Only allow letters
-}
-export function validateCLientEmail(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); // Basic email validation
-}
+// Basic validation functions
+export const validateSenderStreetAddress = isNonEmpty;
+export const validateSenderCity = isNonEmpty;
+export const validateSenderCountry = isNonEmpty;
+export const validateClientStreetAddress = isNonEmpty;
+export const validateClientCity = isNonEmpty;
+export const validateClientCountry = isNonEmpty;
 
-export function validateClientStreetAddress(streetAddress) {
-  if (!streetAddress.trim()) {
-    return false;
-  }
-  return true;
-}
-export function validateClientCity(city) {
-  if (!city.trim()) {
-    return false;
-  }
-  return true;
-}
-export function validateClientPostCode(postCode) {
-  return /^\d{5}(-\d{4})?$/.test(postCode); // Basic post code validation
-}
-export function validateClientCountry(country) {
-  if (!country.trim()) {
-    return false;
-  }
-  return true;
-}
+// Regular expressions for validation
+const POST_CODE_REGEX = /^\d{5}(-\d{4})?$/;
+const NAME_REGEX = /^[a-zA-Z]+$/;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export function validateItemName(itemName) {
-  if (!itemName.trim()) {
-    return false;
-  }
-  return true;
-}
-export function validateItemPrice(itemPrice) {
-  if (itemPrice <= 0) {
-    return false;
-  }
-  return true;
-}
-export function validateItemCount(itemCount) {
-  if (itemCount <= 0) {
-    return false;
-  }
-  return true;
-}
+// Validation functions
+export const validateSenderPostCode = (postCode) => POST_CODE_REGEX.test(postCode);
+export const validateClientPostCode = (postCode) => POST_CODE_REGEX.test(postCode);
+export const validateClientName = (name) => NAME_REGEX.test(name);
+export const validateClientEmail = (email) => EMAIL_REGEX.test(email);
+
+// Item validation functions
+export const validateItemName = isNonEmpty;
+export const validateItemPrice = (price) => price > 0;
+export const validateItemCount = (count) => count > 0;
